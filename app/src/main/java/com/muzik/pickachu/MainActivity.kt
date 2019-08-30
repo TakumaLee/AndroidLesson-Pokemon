@@ -1,6 +1,7 @@
 package com.muzik.pickachu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
@@ -17,16 +18,34 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fabPickachu.setOnClickListener { view ->
-            attack(textKamexHP, progressBarKamex)
+            // big data
+            Thread {
+                specialAttack()
+            }.start()
+
+//            attack(textKamexHP, progressBarKamex)
         }
 
         fabKamex.setOnClickListener { view ->
-            attack(textPickachuHP, progressBarPickachu)
+            attack(300, textPickachuHP, progressBarPickachu)
         }
     }
 
-    private fun attack(textHP: TextView, progressBarHP: ProgressBar) {
-        val attack = 300
+    private fun specialAttack() {
+        var thunderStorage = 0
+        for (i in 0 .. 9) {
+            thunderStorage += 50
+            Log.v("Special Attack", "thunder: $thunderStorage i: $i")
+            Thread.sleep(500)
+        }
+        // attack = 500
+        runOnUiThread {
+            attack(thunderStorage, textKamexHP, progressBarKamex)
+        }
+
+    }
+
+    private fun attack(attack: Int, textHP: TextView, progressBarHP: ProgressBar) {
         var hp = textHP.text.toString().toInt()
         if (attack > hp) {
             hp = 0
@@ -52,4 +71,6 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
 }
