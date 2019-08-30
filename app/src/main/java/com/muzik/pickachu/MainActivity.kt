@@ -3,6 +3,8 @@ package com.muzik.pickachu
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -15,20 +17,24 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fabPickachu.setOnClickListener { view ->
-            val attack = 300
-            var hp = textKamexHP.text.toString().toInt()
-            hp -= attack
-            textKamexHP.text = "$hp"
-            progressBarKamex.progress = hp
+            attack(textKamexHP, progressBarKamex)
         }
 
         fabKamex.setOnClickListener { view ->
-            val attack = 300
-            var hp = textPickachuHP.text.toString().toInt()
-            hp -= attack
-            textPickachuHP.text = "$hp"
-            progressBarPickachu.progress = hp
+            attack(textPickachuHP, progressBarPickachu)
         }
+    }
+
+    private fun attack(textHP: TextView, progressBarHP: ProgressBar) {
+        val attack = 300
+        var hp = textHP.text.toString().toInt()
+        if (attack > hp) {
+            hp = 0
+        } else {
+            hp -= attack
+        }
+        textHP.text = "$hp"
+        progressBarHP.progress = hp
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
